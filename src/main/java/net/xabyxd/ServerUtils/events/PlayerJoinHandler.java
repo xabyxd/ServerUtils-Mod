@@ -12,21 +12,52 @@ public class PlayerJoinHandler {
 
     @SubscribeEvent
     public void onPlayerJoin(PlayerLoggedInEvent event) {
-        String username = event.player.getDisplayName();
-
-        MinecraftServer.getServer().getConfigurationManager().sendChatMsg(
-            new ChatComponentText(
-                EnumChatFormatting.GREEN + "[SERVER] " + username + EnumChatFormatting.WHITE + " has joined the server!!"
-            )
-        );
-
         EntityPlayer player = (EntityPlayer) event.player;
-        player.addChatMessage(
-            new ChatComponentText(
-                EnumChatFormatting.GREEN + "[SERVER] " + EnumChatFormatting.WHITE + "Hello " + username + ", use /kits to see the kits."
-            )// example text xd
-        );
+        String username = player.getDisplayName();
+
+        broadcastJoin(username);
+        sendWelcome(player, username);
 
         Serverutils.LOGGER.info(username + " joined the world!");
+    }
+
+    private boolean isOp(EntityPlayer player) {
+        return MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile());
+    }
+
+    private void broadcastJoin(String username) {
+        MinecraftServer.getServer().getConfigurationManager().sendChatMsg(
+            new ChatComponentText(
+                EnumChatFormatting.GREEN + "» " + EnumChatFormatting.BOLD + username +
+                EnumChatFormatting.RESET + EnumChatFormatting.GREEN + " has joined the server!"
+            )
+        );
+    }
+
+    private void sendWelcome(EntityPlayer player, String username) {
+        String separator = EnumChatFormatting.DARK_GRAY + "―――――――――――――――――――――";
+
+        player.addChatMessage(new ChatComponentText(separator));
+
+        if (isOp(player)) {
+            player.addChatMessage(new ChatComponentText(
+                EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + "Welcome back, " + username + "!"
+            ));
+            player.addChatMessage(new ChatComponentText(
+                EnumChatFormatting.GRAY + "You are logged in as " + EnumChatFormatting.RED + "OP" +
+                EnumChatFormatting.GRAY + ". Type " + EnumChatFormatting.AQUA + "/help" +
+                EnumChatFormatting.GRAY + " to see admin commands."
+            ));
+        } else {
+            player.addChatMessage(new ChatComponentText(
+                EnumChatFormatting.GOLD + "" + EnumChatFormatting.BOLD + "Welcome, " + username + "!"
+            ));
+            player.addChatMessage(new ChatComponentText(
+                EnumChatFormatting.GRAY + "Use " + EnumChatFormatting.AQUA + "/kits" +
+                EnumChatFormatting.GRAY + " to see the available kits."
+            ));
+        }
+
+        player.addChatMessage(new ChatComponentText(separator));
     }
 }

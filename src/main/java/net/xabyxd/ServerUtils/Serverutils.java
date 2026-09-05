@@ -11,6 +11,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraft.init.Blocks;
 import net.xabyxd.ServerUtils.commands.CommandGreet;
 import net.xabyxd.ServerUtils.events.PlayerJoinHandler;
+import net.xabyxd.ServerUtils.events.VanillaJoinMessageFilter;
 
 @Mod(modid = Serverutils.MODID, version = Serverutils.VERSION)
 public class Serverutils {
@@ -27,6 +28,8 @@ public class Serverutils {
 
         // Event registration
         FMLCommonHandler.instance().bus().register(new PlayerJoinHandler());
+        FMLCommonHandler.instance().bus().register(new VanillaJoinMessageFilter());
+        Serverutils.LOGGER.info("Events registered!");
         Serverutils.LOGGER.info("=====================================");
     }
 
@@ -34,5 +37,6 @@ public class Serverutils {
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandGreet());
+        Serverutils.LOGGER.info("Commands registered!");
     }
 }
