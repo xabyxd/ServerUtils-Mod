@@ -1,15 +1,15 @@
 [
 {
   "modid": "${modid}",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "name": "Server Utils",
+  "description": "Server Utils, a mod that adds some useful features to the server.",
   "version": "${version}",
   "mcversion": "${minecraft_version}",
-  "url": "",
+  "url": "https://github.com/xabyxd/ServerUtils-Mod",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
-  "logoFile": "",
+  "authorList": ["xabyxd"],
+  "credits": "The Forge and FML team.",
+  "logoFile": "mod_logo.png",
   "screenshots": [],
   "dependencies": []
 }
