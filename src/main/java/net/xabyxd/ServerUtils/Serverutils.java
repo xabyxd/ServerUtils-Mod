@@ -9,6 +9,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraft.init.Blocks;
+import net.xabyxd.ServerUtils.commands.CommandGetLocation;
 import net.xabyxd.ServerUtils.commands.CommandGreet;
 import net.xabyxd.ServerUtils.events.PlayerJoinHandler;
 import net.xabyxd.ServerUtils.events.VanillaJoinMessageFilter;
@@ -37,6 +38,7 @@ public class Serverutils {
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandGreet());
+        event.registerServerCommand(new CommandGetLocation());
         Serverutils.LOGGER.info("Commands registered!");
     }
 }
