@@ -1,6 +1,7 @@
 package net.xabyxd.ServerUtils.events;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -11,6 +12,12 @@ import net.xabyxd.ServerUtils.Serverutils;
 public class PlayerJoinHandler {
 
     @SubscribeEvent
+    // TODO: add a bool option config to disable or enable this event
+    public void onDimensionChange(PlayerChangedDimensionEvent event) {
+        Serverutils.LOGGER.info("[INFO] " + event.player.getCommandSenderName() + " changed from dim " + event.fromDim + " to dim " + event.toDim);
+    }
+
+    @SubscribeEvent
     public void onPlayerJoin(PlayerLoggedInEvent event) {
         EntityPlayer player = (EntityPlayer) event.player;
         String username = player.getDisplayName();
@@ -18,7 +25,7 @@ public class PlayerJoinHandler {
         broadcastJoin(username);
         sendWelcome(player, username);
 
-        Serverutils.LOGGER.info(username + " joined the world!");
+        Serverutils.LOGGER.info("[INFO] " + username + " joined the world!");
     }
 
     private boolean isOp(EntityPlayer player) {

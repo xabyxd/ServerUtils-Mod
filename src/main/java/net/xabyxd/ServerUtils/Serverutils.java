@@ -3,42 +3,46 @@ package net.xabyxd.ServerUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import net.minecraft.init.Blocks;
-import net.xabyxd.ServerUtils.commands.CommandGetLocation;
-import net.xabyxd.ServerUtils.commands.CommandGreet;
-import net.xabyxd.ServerUtils.events.PlayerJoinHandler;
-import net.xabyxd.ServerUtils.events.VanillaJoinMessageFilter;
 
-@Mod(modid = Serverutils.MODID, version = Serverutils.VERSION)
+@Mod(modid =
+    Serverutils.MODID,
+    version = Serverutils.VERSION,
+    name = "Server Utils",
+    dependencies = "required-after:Forge@[10.13.4.1614]", // espcecify Forge version (just in case)
+    acceptedMinecraftVersions = "[1.7.10]",
+    acceptableRemoteVersions = "*" // make the mod only server-side
+)
+
 public class Serverutils {
     public static final String MODID = "serverutils";
     public static final String VERSION = "@VERSION@";
     public static final Logger LOGGER = LogManager.getLogger(MODID);
 
-    @EventHandler
-    public void init(FMLInitializationEvent event) {
-        Serverutils.LOGGER.info("==== Server Utils v" + VERSION + " loaded! ====");
-        Serverutils.LOGGER.info("By: xabyxd");
-        // only for testing purposes
-        Serverutils.LOGGER.info("DIRT BLOCK >> " + Blocks.dirt.getUnlocalizedName());
+    public static CommonProxy proxy = new CommonProxy();
 
-        // Event registration
-        FMLCommonHandler.instance().bus().register(new PlayerJoinHandler());
-        FMLCommonHandler.instance().bus().register(new VanillaJoinMessageFilter());
-        Serverutils.LOGGER.info("Events registered!");
-        Serverutils.LOGGER.info("=====================================");
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        proxy.preInit(event);
     }
 
-    // Commands registration
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
+        proxy.init(event);
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        proxy.postInit(event);
+    }
+
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
-        event.registerServerCommand(new CommandGreet());
-        event.registerServerCommand(new CommandGetLocation());
-        Serverutils.LOGGER.info("Commands registered!");
+        proxy.serverStarting(event);
     }
 }

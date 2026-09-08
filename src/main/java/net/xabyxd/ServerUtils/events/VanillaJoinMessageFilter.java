@@ -52,4 +52,5 @@ public class VanillaJoinMessageFilter {
         }
         return null;
     }
+    // TODO: add a goodbye message filter too XD
 }

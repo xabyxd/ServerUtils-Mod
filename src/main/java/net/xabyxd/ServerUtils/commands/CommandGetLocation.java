@@ -52,8 +52,10 @@ public class CommandGetLocation extends CommandBase {
             }
 
             String PlayerUUID = target.getUniqueID().toString();
+            int dimID = target.worldObj.provider.dimensionId;
+            String dimName = target.worldObj.provider.getDimensionName();
             sender.addChatMessage(
-                new ChatComponentText(EnumChatFormatting.YELLOW + "[INFO] " + EnumChatFormatting.WHITE + "Player: " + PlayerName + " with UUID: " + PlayerUUID + " is at: " + Math.floor(target.posX) + ", " + Math.floor(target.posY) + ", " + Math.floor(target.posZ) + ".")
+                new ChatComponentText(EnumChatFormatting.YELLOW + "[INFO] " + EnumChatFormatting.WHITE + "Player: " + PlayerName + " with UUID: " + PlayerUUID + " is at: " + Math.floor(target.posX) + ", " + Math.floor(target.posY) + ", " + Math.floor(target.posZ) + " on dimension: " + dimID + " ( " + dimName + " ).")
             );
         }
     }
