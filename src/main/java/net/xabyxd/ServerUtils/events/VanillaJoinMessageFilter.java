@@ -1,6 +1,8 @@
 package net.xabyxd.ServerUtils.events;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -15,6 +17,11 @@ import net.xabyxd.ServerUtils.Serverutils;
 
 public class VanillaJoinMessageFilter {
 
+    private static final List<String> BLOCKED_KEYS = Arrays.asList(
+        "multiplayer.player.joined",
+        "multiplayer.player.left"
+    );
+
     @SubscribeEvent
     public void onPlayerJoin(PlayerLoggedInEvent event) {
         EntityPlayerMP player = (EntityPlayerMP) event.player;
@@ -28,7 +35,7 @@ public class VanillaJoinMessageFilter {
                             IChatComponent component = extractChatComponent((S02PacketChat) msg);
                             if (component instanceof ChatComponentTranslation) {
                                 String key = ((ChatComponentTranslation) component).getKey();
-                                if ("multiplayer.player.joined".equals(key)) {
+                                if (BLOCKED_KEYS.contains(key)) {
                                     return; // It's ruled out, no call is made to super.write()
                                 }
                             }
@@ -52,5 +59,4 @@ public class VanillaJoinMessageFilter {
         }
         return null;
     }
-    // TODO: add a goodbye message filter too XD
 }

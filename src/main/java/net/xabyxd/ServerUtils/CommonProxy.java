@@ -15,11 +15,14 @@ import net.xabyxd.ServerUtils.events.VanillaJoinMessageFilter;
 public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
-        // config init (not implemented yet only test)
+        // config init
         Config.synchronizeConfiguration(event.getSuggestedConfigurationFile());
 
-        Serverutils.LOGGER.info(Config.greeting);
-        Serverutils.LOGGER.info("This is a configuration test!" + Serverutils.VERSION);
+        Serverutils.LOGGER.info(Config.configGenerationTest);
+        Serverutils.LOGGER.info("This is a configuration test! " + Serverutils.VERSION);
+
+        // logDimensionChanges boolean option
+        Serverutils.LOGGER.info("logDimensionChanges: " + Config.logDimensionChanges);
     }
 
     public void init(FMLInitializationEvent event) {

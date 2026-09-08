@@ -10,8 +10,8 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
-@Mod(modid =
-    Serverutils.MODID,
+@Mod(
+    modid = Serverutils.MODID,
     version = Serverutils.VERSION,
     name = "Server Utils",
     dependencies = "required-after:Forge@[10.13.4.1614]", // espcecify Forge version (just in case)

@@ -3,18 +3,23 @@ package net.xabyxd.ServerUtils.events;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.common.DimensionManager;
 import net.xabyxd.ServerUtils.Serverutils;
+import net.xabyxd.ServerUtils.config.Config;
 
 public class PlayerJoinHandler {
 
     @SubscribeEvent
-    // TODO: add a bool option config to disable or enable this event
-    public void onDimensionChange(PlayerChangedDimensionEvent event) {
-        Serverutils.LOGGER.info("[INFO] " + event.player.getCommandSenderName() + " changed from dim " + event.fromDim + " to dim " + event.toDim);
+    public void onDimensionChange(PlayerChangedDimensionEvent event) { // FIX: now the event prints the old and new dimension names
+        if (!Config.logDimensionChanges) return;
+        String fromDimName = DimensionManager.createProviderFor(event.fromDim).getDimensionName();
+        String toDimName = DimensionManager.createProviderFor(event.toDim).getDimensionName();
+        Serverutils.LOGGER.info("[INFO] " + event.player.getCommandSenderName() + " changed from dim " + event.fromDim + " ( " + fromDimName + " ) to dim " + event.toDim + " ( " + toDimName + " ).");
     }
 
     @SubscribeEvent
@@ -28,6 +33,16 @@ public class PlayerJoinHandler {
         Serverutils.LOGGER.info("[INFO] " + username + " joined the world!");
     }
 
+    @SubscribeEvent
+    public void onPlayerLeave(PlayerLoggedOutEvent event) {
+        EntityPlayer player = (EntityPlayer) event.player;
+        String username = player.getDisplayName();
+
+        broadcastLeave(username);
+
+        Serverutils.LOGGER.info("[INFO] " + username + " left the world!");
+    }
+
     private boolean isOp(EntityPlayer player) {
         return MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile());
     }
@@ -37,6 +52,15 @@ public class PlayerJoinHandler {
             new ChatComponentText(
                 EnumChatFormatting.GREEN + "» " + EnumChatFormatting.BOLD + username +
                 EnumChatFormatting.RESET + EnumChatFormatting.GREEN + " has joined the server!"
+            )
+        );
+    }
+
+    private void broadcastLeave(String username) {
+        MinecraftServer.getServer().getConfigurationManager().sendChatMsg(
+            new ChatComponentText(
+                EnumChatFormatting.RED + "« " + EnumChatFormatting.BOLD + username +
+                EnumChatFormatting.RESET + EnumChatFormatting.RED + " has left the server!"
             )
         );
     }
