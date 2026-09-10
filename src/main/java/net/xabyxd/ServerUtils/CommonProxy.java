@@ -11,6 +11,7 @@ import net.xabyxd.ServerUtils.commands.CommandGreet;
 import net.xabyxd.ServerUtils.config.Config;
 import net.xabyxd.ServerUtils.events.PlayerJoinHandler;
 import net.xabyxd.ServerUtils.events.VanillaJoinMessageFilter;
+import net.xabyxd.ServerUtils.utils.VersionChecker;
 
 public class CommonProxy {
 
@@ -26,6 +27,10 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent event) {
+
+        // Version checker init
+        VersionChecker.startCheck();
+
         Serverutils.LOGGER.info("==== Server Utils v" + Serverutils.VERSION + " loaded! ====");
         Serverutils.LOGGER.info("By: xabyxd");
         

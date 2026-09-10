@@ -16,6 +16,8 @@ public class Config {
 
     // Config mod options
     public static boolean logDimensionChanges = true;
+    public static boolean enableVersionChecker = true;
+    public static String REMOTE_VERSION_URL = "https://xabyserver.ddns.net/ServerUtils/version.txt";
 
     public static void synchronizeConfiguration() {
         if (!configFile.getParentFile().exists()) {
@@ -23,6 +25,20 @@ public class Config {
         }
 
         Configuration configuration = new Configuration(configFile);
+
+        REMOTE_VERSION_URL = configuration.getString(
+            "REMOTE_VERSION_URL",
+            Configuration.CATEGORY_GENERAL,
+            REMOTE_VERSION_URL,
+            "URL to check for updates, just in case domain name changes."
+        );
+
+        enableVersionChecker = configuration.getBoolean(
+            "enableVersionChecker",
+            Configuration.CATEGORY_GENERAL,
+            enableVersionChecker,
+            "Enable or disable the version checker."
+        );
 
         configGenerationTest = configuration.getString(
             "configGenerationTest",
