@@ -16,7 +16,7 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         // config init
-        Config.synchronizeConfiguration(event.getSuggestedConfigurationFile());
+        Config.synchronizeConfiguration();
 
         Serverutils.LOGGER.info(Config.configGenerationTest);
         Serverutils.LOGGER.info("This is a configuration test! " + Serverutils.VERSION);

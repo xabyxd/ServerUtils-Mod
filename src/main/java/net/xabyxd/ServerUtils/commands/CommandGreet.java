@@ -18,7 +18,7 @@ public class CommandGreet extends CommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/greet <player>";
+        return "/greet <player|everyone>";
     }
 
     @Override
