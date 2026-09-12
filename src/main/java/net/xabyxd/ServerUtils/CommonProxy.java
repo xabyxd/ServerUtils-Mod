@@ -8,6 +8,8 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraft.init.Blocks;
 import net.xabyxd.ServerUtils.commands.CommandGetLocation;
 import net.xabyxd.ServerUtils.commands.CommandGreet;
+import net.xabyxd.ServerUtils.commands.CommandInfo;
+import net.xabyxd.ServerUtils.commands.CommandReload;
 import net.xabyxd.ServerUtils.config.Config;
 import net.xabyxd.ServerUtils.events.PlayerJoinHandler;
 import net.xabyxd.ServerUtils.events.VanillaJoinMessageFilter;
@@ -19,8 +21,7 @@ public class CommonProxy {
         // config init
         Config.synchronizeConfiguration();
 
-        Serverutils.LOGGER.info(Config.configGenerationTest);
-        Serverutils.LOGGER.info("This is a configuration test! " + Serverutils.VERSION);
+        Serverutils.LOGGER.info("Loading configuration...");
 
         // logDimensionChanges boolean option
         Serverutils.LOGGER.info("logDimensionChanges: " + Config.logDimensionChanges);
@@ -51,6 +52,8 @@ public class CommonProxy {
     public void serverStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandGreet());
         event.registerServerCommand(new CommandGetLocation());
+        event.registerServerCommand(new CommandInfo());
+        event.registerServerCommand(new CommandReload());
         Serverutils.LOGGER.info("Commands registered!");
     }
 }

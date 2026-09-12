@@ -72,7 +72,7 @@ public class PlayerJoinHandler {
 
         if (isOp(player)) {
             player.addChatMessage(new ChatComponentText(
-                EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + "Welcome back, " + username + "!"
+                EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + Config.opUserWelcomeMessage + username + "!"
             ));
             player.addChatMessage(new ChatComponentText(
                 EnumChatFormatting.GRAY + "You are logged in as " + EnumChatFormatting.RED + "OP" +
@@ -81,11 +81,11 @@ public class PlayerJoinHandler {
             ));
         } else {
             player.addChatMessage(new ChatComponentText(
-                EnumChatFormatting.GOLD + "" + EnumChatFormatting.BOLD + "Welcome, " + username + "!"
+                EnumChatFormatting.GOLD + "" + EnumChatFormatting.BOLD + Config.normalUserWelcomeMessage + username + "!"
             ));
             player.addChatMessage(new ChatComponentText(
-                EnumChatFormatting.GRAY + "Use " + EnumChatFormatting.AQUA + "/kits" +
-                EnumChatFormatting.GRAY + " to see the available kits."
+                EnumChatFormatting.GRAY + "Use " + EnumChatFormatting.AQUA + "/info" +
+                EnumChatFormatting.GRAY + " to see the available server info."
             ));
         }
 
