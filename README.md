@@ -1,6 +1,6 @@
 # Server Utils
 
-**Server Utils** is a lightweight, server-side Minecraft Forge mod for **1.7.10** that adds a handful of quality-of-life utilities for server administration: custom join/leave messages, dimension-change logging, and a couple of admin/utility commands.
+**Server Utils** is a lightweight, server-side Minecraft Forge mod for **1.7.10** that adds a handful of quality-of-life utilities for server administration: custom join/leave messages, dimension-change logging, an update checker, and a couple of admin/utility commands.
 
 - **Mod ID:** `serverutils`
 - **Author:** xabyxd
@@ -21,22 +21,29 @@ The original vanilla messages are intercepted at the network layer (via a Netty 
 ### Welcome message on login
 When a player joins, they receive a short personalized welcome message framed by separators:
 
-- If the player is an **OP**, they get an admin-flavored welcome ("Welcome back") with a pointer to `/help`.
-- Regular players get a standard welcome with a pointer to `/kits`.
+- If the player is an **OP**, they get an admin-flavored welcome message.
+- Regular players get a standard welcome message.
+
+Both messages are configurable (see below).
 
 ### Dimension change logging
 Logs every dimension change to the server console, including both the origin and destination dimension names. This can be toggled via config (see below).
 
+### Update checker
+On startup, the mod asynchronously checks a remote `version.txt` against the running mod version and logs whether an update is available. Both the check itself and the remote URL are configurable.
+
 ### Commands
 
-| Command | Usage | Description |
-|---|---|---|
-| `/greet` | `/greet <player\|everyone>` | Sends a green "Hello" chat message to a specific player, or to everyone on the server if `everyone` is used. Supports tab-completion of online player names. |
-| `/getlocation` | `/getlocation <player>` | Prints the target player's UUID, exact coordinates, and current dimension (id + name) to the command sender. Supports tab-completion of online player names. |
+| Command | Usage | Permission | Description |
+|---|---|---|---|
+| `/greet` | `/greet <player\|everyone>` | OP | Sends a green "Hello" chat message to a specific player, or to everyone on the server if `everyone` is used. Supports tab-completion of online player names. |
+| `/getlocation` | `/getlocation <player>` | OP | Prints the target player's UUID, exact coordinates, and current dimension (id + name) to the command sender. Supports tab-completion of online player names. |
+| `/info` | `/info` | Everyone | Prints a configurable list of informational lines (server info, credits, etc.) to chat. |
+| `/sureload` | `/sureload` | OP | Reloads `serverutils.cfg` from disk without restarting the server. |
 
 More to come... in [*TODO.md*](TODO.md).
 
-Both commands are server commands, registered on `FMLServerStartingEvent`.
+All commands are server commands, registered on `FMLServerStartingEvent`.
 
 ## Configuration
 
@@ -46,10 +53,16 @@ On first launch, the mod generates its own config folder (instead of a single fl
 config/serverutils/serverutils.cfg
 ```
 
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `configGenerationTest` | String | `Config loaded correctly!` | Simple sanity-check value used to confirm the config file loaded correctly. |
-| `logDimensionChanges` | boolean | `true` | Whether dimension changes should be logged to the server console. |
+| Option | Category | Type | Default | Description |
+|---|---|---|---|---|
+| `REMOTE_VERSION_URL` | `general` | String | `https://xabyserver.ddns.net/ServerUtils/version.txt` | URL checked by the update checker. |
+| `logDimensionChanges` | `general` | boolean | `true` | Whether dimension changes should be logged to the server console. |
+| `enableVersionChecker` | `version checker` | boolean | `true` | Enable or disable the update checker. |
+| `normalUserWelcomeMessage` | `welcome messages` | String | `Welcome to the server!` | Welcome message sent to regular players on join. |
+| `opUserWelcomeMessage` | `welcome messages` | String | `Welcome back,` | Welcome message sent to OPs on join. |
+| `commandInfo` | `commands` | String list | server info / credits lines | Lines printed by `/info`, one entry per line. |
+
+Running `/sureload` re-reads this file and applies changes without needing to restart the server.
 
 ## Installation
 
@@ -82,10 +95,16 @@ src/main/java/net/xabyxd/ServerUtils/
 │   └── Config.java                # Forge Configuration handling
 ├── commands/
 │   ├── CommandGreet.java
-│   └── CommandGetLocation.java
-└── events/
-    ├── PlayerJoinHandler.java             # Join/leave broadcasts, welcome message, dimension logging
-    └── VanillaJoinMessageFilter.java      # Suppresses vanilla join/leave chat packets
+│   ├── CommandGetLocation.java
+│   ├── CommandInfo.java
+│   └── CommandReload.java
+├── events/
+│   ├── PlayerJoinHandler.java             # Join/leave broadcasts, welcome message, dimension logging
+│   └── VanillaJoinMessageFilter.java      # Suppresses vanilla join/leave chat packets
+└── utils/
+    ├── VersionChecker.java        # Async update check against a remote version.txt
+    └── LogHelper.java             # Logger wrapper around log4j
+    └── TimeFormat.java            # Formats time in ticks
 ```
 
 ## License

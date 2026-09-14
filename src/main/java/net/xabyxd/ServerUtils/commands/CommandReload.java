@@ -5,6 +5,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.xabyxd.ServerUtils.config.Config;
+import net.xabyxd.ServerUtils.utils.LogHelper;
 
 public class CommandReload extends CommandBase {
 
@@ -25,7 +26,13 @@ public class CommandReload extends CommandBase {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
-        Config.synchronizeConfiguration();
+        try {
+            Config.synchronizeConfiguration();
+        } catch (Exception e) {
+            LogHelper.error("Error reloading config", e);
+            sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Error reloading config: " + e.getMessage()));
+            return;
+        }
         sender.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "ServerUtils config reloaded."));
     }
 }

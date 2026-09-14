@@ -13,7 +13,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
-import net.xabyxd.ServerUtils.Serverutils;
+import net.xabyxd.ServerUtils.utils.LogHelper;
 
 public class VanillaJoinMessageFilter {
 
@@ -42,7 +42,7 @@ public class VanillaJoinMessageFilter {
                         }
                     } catch (Exception e) {
                         // If something fails during packet inspection, we let it pass instead of dropping the connection.
-                        Serverutils.LOGGER.warn("Failed to inspect outgoing chat packet", e);
+                        LogHelper.warn("Failed to inspect outgoing chat packet", e);
                     }
                     super.write(ctx, msg, promise);
                 }

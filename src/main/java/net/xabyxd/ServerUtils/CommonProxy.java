@@ -13,6 +13,7 @@ import net.xabyxd.ServerUtils.commands.CommandReload;
 import net.xabyxd.ServerUtils.config.Config;
 import net.xabyxd.ServerUtils.events.PlayerJoinHandler;
 import net.xabyxd.ServerUtils.events.VanillaJoinMessageFilter;
+import net.xabyxd.ServerUtils.utils.LogHelper;
 import net.xabyxd.ServerUtils.utils.VersionChecker;
 
 public class CommonProxy {
@@ -21,10 +22,10 @@ public class CommonProxy {
         // config init
         Config.synchronizeConfiguration();
 
-        Serverutils.LOGGER.info("Loading configuration...");
+        LogHelper.info("Loading configuration...");
 
         // logDimensionChanges boolean option
-        Serverutils.LOGGER.info("logDimensionChanges: " + Config.logDimensionChanges);
+        LogHelper.info("logDimensionChanges: " + Config.logDimensionChanges);
     }
 
     public void init(FMLInitializationEvent event) {
@@ -32,17 +33,17 @@ public class CommonProxy {
         // Version checker init
         VersionChecker.startCheck();
 
-        Serverutils.LOGGER.info("==== Server Utils v" + Serverutils.VERSION + " loaded! ====");
-        Serverutils.LOGGER.info("By: xabyxd");
+        LogHelper.info("==== Server Utils v" + Serverutils.VERSION + " loaded! ====");
+        LogHelper.info("By: xabyxd");
         
         // only for testing purposes
-        Serverutils.LOGGER.info("DIRT BLOCK >> " + Blocks.dirt.getUnlocalizedName());
+        LogHelper.info("DIRT BLOCK >> " + Blocks.dirt.getUnlocalizedName());
 
         // Event registration
         FMLCommonHandler.instance().bus().register(new PlayerJoinHandler());
         FMLCommonHandler.instance().bus().register(new VanillaJoinMessageFilter());
-        Serverutils.LOGGER.info("Events registered!");
-        Serverutils.LOGGER.info("=====================================");
+        LogHelper.info("Events registered!");
+        LogHelper.info("=====================================");
     }
 
     public void postInit(FMLPostInitializationEvent event) {
@@ -54,6 +55,6 @@ public class CommonProxy {
         event.registerServerCommand(new CommandGetLocation());
         event.registerServerCommand(new CommandInfo());
         event.registerServerCommand(new CommandReload());
-        Serverutils.LOGGER.info("Commands registered!");
+        LogHelper.info("Commands registered!");
     }
 }

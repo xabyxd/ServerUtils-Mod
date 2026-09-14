@@ -1,8 +1,5 @@
 package net.xabyxd.ServerUtils;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -22,7 +19,6 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 public class Serverutils {
     public static final String MODID = "serverutils";
     public static final String VERSION = "@VERSION@";
-    public static final Logger LOGGER = LogManager.getLogger(MODID);
 
     public static CommonProxy proxy = new CommonProxy();
 

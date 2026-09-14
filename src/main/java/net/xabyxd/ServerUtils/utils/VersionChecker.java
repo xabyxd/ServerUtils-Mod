@@ -57,7 +57,7 @@ public class VersionChecker implements Runnable {
             reader.close();
 
             if (latestVersion.isEmpty()) {
-                Serverutils.LOGGER.warn(
+                LogHelper.warn(
                     "No version information found for Minecraft {}",
                     minecraftVersion
                 );
@@ -65,30 +65,30 @@ public class VersionChecker implements Runnable {
             }
 
             if (LOCAL_VERSION.equals(latestVersion)) {
-                Serverutils.LOGGER.info(
+                LogHelper.info(
                     "ServerUtils is up to date! ({})",
                     LOCAL_VERSION
                 );
             } else {
                 updateAvailable = true;
-                Serverutils.LOGGER.warn(
+                LogHelper.warn(
                     "A new version of ServerUtils is available!"
                 );
-                Serverutils.LOGGER.warn(
+                LogHelper.warn(
                     "Current version: {}",
                     LOCAL_VERSION
                 );
-                Serverutils.LOGGER.warn(
+                LogHelper.warn(
                     "Latest version: {}",
                     latestVersion
                 );
             }
         } catch (Exception e) {
             noConnection = true;
-            Serverutils.LOGGER.warn(
-                    "Unable to check for ServerUtils updates."
+            LogHelper.warn(
+                "Unable to check for ServerUtils updates."
             );
-            Serverutils.LOGGER.debug(
+            LogHelper.debug(
                 "Version check exception:",
                 e
             );

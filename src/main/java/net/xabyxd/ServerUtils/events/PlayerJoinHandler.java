@@ -9,8 +9,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.DimensionManager;
-import net.xabyxd.ServerUtils.Serverutils;
 import net.xabyxd.ServerUtils.config.Config;
+import net.xabyxd.ServerUtils.utils.LogHelper;
 
 public class PlayerJoinHandler {
 
@@ -19,7 +19,7 @@ public class PlayerJoinHandler {
         if (!Config.logDimensionChanges) return;
         String fromDimName = DimensionManager.createProviderFor(event.fromDim).getDimensionName();
         String toDimName = DimensionManager.createProviderFor(event.toDim).getDimensionName();
-        Serverutils.LOGGER.info("[INFO] " + event.player.getCommandSenderName() + " changed from dim " + event.fromDim + " ( " + fromDimName + " ) to dim " + event.toDim + " ( " + toDimName + " ).");
+        LogHelper.info("[INFO] " + event.player.getCommandSenderName() + " changed from dim " + event.fromDim + " ( " + fromDimName + " ) to dim " + event.toDim + " ( " + toDimName + " ).");
     }
 
     @SubscribeEvent
@@ -30,7 +30,7 @@ public class PlayerJoinHandler {
         broadcastJoin(username);
         sendWelcome(player, username);
 
-        Serverutils.LOGGER.info("[INFO] " + username + " joined the world!");
+        LogHelper.info("[INFO] " + username + " joined the world!");
     }
 
     @SubscribeEvent
@@ -40,7 +40,7 @@ public class PlayerJoinHandler {
 
         broadcastLeave(username);
 
-        Serverutils.LOGGER.info("[INFO] " + username + " left the world!");
+        LogHelper.info("[INFO] " + username + " left the world!");
     }
 
     private boolean isOp(EntityPlayer player) {
