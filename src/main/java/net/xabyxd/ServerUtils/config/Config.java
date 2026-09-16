@@ -18,6 +18,7 @@ public class Config {
     public static final String CATEGORY_WELCOME = "welcome messages";
     public static final String CATEGORY_VERSION_CHECKER = "version checker";
     public static final String CATEGORY_COMMANDS = "commands";
+    public static final String CATEGORY_BLOCKS = "watched blocks";
 
     // Config mod options
     public static boolean logDimensionChanges = true;
@@ -35,6 +36,14 @@ public class Config {
             "The mod is developed by xabyxd",
             "Sincerely, the mod author",
             "Whathever"
+        )
+    );
+
+    public static List<String> watchedBlocksList = new ArrayList<>(
+    Arrays.asList(
+            "minecraft:diamond_ore",
+            "minecraft:chest",
+            "TwilightForest:tile.TFPlank"
         )
     );
 
@@ -87,6 +96,17 @@ public class Config {
                     CATEGORY_COMMANDS,
                     commandInfo.toArray(new String[0]),
                     "Lines shown by the /info command, one entry per line."
+                )
+            )
+        );
+
+        watchedBlocksList = new ArrayList<>(
+            Arrays.asList(
+                configuration.getStringList(
+                    "watchedBlocks",
+                    CATEGORY_BLOCKS,
+                    watchedBlocksList.toArray(new String[0]),
+                    "Blocks to monitor in format => modid:blockname (ej: minecraft:diamond_ore, TwilightForest:tile.TFPlank)."
                 )
             )
         );

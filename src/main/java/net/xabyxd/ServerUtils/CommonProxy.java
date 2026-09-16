@@ -6,11 +6,13 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraft.init.Blocks;
+import net.minecraftforge.common.MinecraftForge;
 import net.xabyxd.ServerUtils.commands.CommandGetLocation;
 import net.xabyxd.ServerUtils.commands.CommandGreet;
 import net.xabyxd.ServerUtils.commands.CommandInfo;
 import net.xabyxd.ServerUtils.commands.CommandReload;
 import net.xabyxd.ServerUtils.config.Config;
+import net.xabyxd.ServerUtils.events.BlockBreackEvent;
 import net.xabyxd.ServerUtils.events.PlayerJoinHandler;
 import net.xabyxd.ServerUtils.events.VanillaJoinMessageFilter;
 import net.xabyxd.ServerUtils.utils.LogHelper;
@@ -42,12 +44,15 @@ public class CommonProxy {
         // Event registration
         FMLCommonHandler.instance().bus().register(new PlayerJoinHandler());
         FMLCommonHandler.instance().bus().register(new VanillaJoinMessageFilter());
+        MinecraftForge.EVENT_BUS.register(new BlockBreackEvent());
         LogHelper.info("Events registered!");
         LogHelper.info("=====================================");
     }
 
     public void postInit(FMLPostInitializationEvent event) {
-        // iteration with other mods
+        // TODO: research if is possible to reload this using /sureload command
+        BlockBreackEvent.loadWatchedBlocks();
+        LogHelper.info("Watched blocks resolved from config.");
     }
 
     public void serverStarting(FMLServerStartingEvent event) {
