@@ -14,9 +14,17 @@ public class VersionChecker implements Runnable {
 
     public static final String LOCAL_VERSION = Serverutils.VERSION;
 
+    public enum UpdateType {
+        NONE,
+        PATCH,
+        MINOR,
+        MAJOR
+    }
+
     private static String latestVersion = "";
     private static boolean updateAvailable;
     private static boolean noConnection;
+    private static UpdateType updateType = UpdateType.NONE;
 
     public static void startCheck() {
         Thread thread = new Thread(
@@ -65,14 +73,18 @@ public class VersionChecker implements Runnable {
             }
 
             if (LOCAL_VERSION.equals(latestVersion)) {
+                updateType = UpdateType.NONE;
                 LogHelper.info(
                     "ServerUtils is up to date! ({})",
                     LOCAL_VERSION
                 );
             } else {
                 updateAvailable = true;
+                updateType = compareVersions(LOCAL_VERSION, latestVersion);
+
                 LogHelper.warn(
-                    "A new version of ServerUtils is available!"
+                    "A new {} update of ServerUtils is available!",
+                    updateType.name().toLowerCase()
                 );
                 LogHelper.warn(
                     "Current version: {}",
@@ -95,6 +107,53 @@ public class VersionChecker implements Runnable {
         }
     }
 
+    /**
+     * Compares two "major.minor.patch" version strings and returns which
+     * kind of update "remoteVersion" represents relative to "localVersion".
+     * Missing segments are treated as 0 (e.g. "1.2" == "1.2.0").
+     */
+    private static UpdateType compareVersions(String localVersion, String remoteVersion) {
+        int[] local = parseVersion(localVersion);
+        int[] remote = parseVersion(remoteVersion);
+
+        if (remote[0] != local[0]) {
+            return UpdateType.MAJOR;
+        }
+
+        if (remote[1] != local[1]) {
+            return UpdateType.MINOR;
+        }
+
+        if (remote[2] != local[2]) {
+            return UpdateType.PATCH;
+        }
+
+        return UpdateType.NONE;
+    }
+
+    /**
+     * Parses a version string into a 3-element [major, minor, patch] array.
+     * Non-numeric suffixes (e.g. "1.2.3-beta") are stripped before parsing,
+     * and missing segments default to 0.
+     */
+    private static int[] parseVersion(String version) {
+        int[] parts = new int[]{0, 0, 0};
+        String[] segments = version.split("\\.");
+
+        for (int i = 0; i < segments.length && i < parts.length; i++) {
+            String segment = segments[i].replaceAll("[^0-9].*", "");
+            if (!segment.isEmpty()) {
+                try {
+                    parts[i] = Integer.parseInt(segment);
+                } catch (NumberFormatException e) {
+                    parts[i] = 0;
+                }
+            }
+        }
+
+        return parts;
+    }
+
     public static boolean isUpdateAvailable() {
         return updateAvailable;
     }
@@ -105,5 +164,9 @@ public class VersionChecker implements Runnable {
 
     public static String getLatestVersion() {
         return latestVersion;
+    }
+
+    public static UpdateType getUpdateType() {
+        return updateType;
     }
 }
