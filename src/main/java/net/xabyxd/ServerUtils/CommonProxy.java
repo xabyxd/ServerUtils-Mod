@@ -13,6 +13,7 @@ import net.xabyxd.ServerUtils.commands.CommandReload;
 import net.xabyxd.ServerUtils.config.Config;
 import net.xabyxd.ServerUtils.events.BlockBreackEvent;
 import net.xabyxd.ServerUtils.events.ChatLogging;
+import net.xabyxd.ServerUtils.events.CommandLogging;
 import net.xabyxd.ServerUtils.events.PlayerJoinHandler;
 import net.xabyxd.ServerUtils.events.VanillaJoinMessageFilter;
 import net.xabyxd.ServerUtils.utils.LogHelper;
@@ -29,6 +30,7 @@ public class CommonProxy {
         // logDimensionChanges boolean option
         LogHelper.info("logDimensionChanges: " + Config.logDimensionChanges);
         LogHelper.info("enableChatLogging: " + Config.enableChatLogging);
+        LogHelper.info("enableCommandLogging: " + Config.enableCommandLogging);
         LogHelper.info("enableVersionChecker: " + Config.enableVersionChecker);
         LogHelper.info("REMOTE_VERSION_URL: " + Config.REMOTE_VERSION_URL);
     }
@@ -45,7 +47,9 @@ public class CommonProxy {
         FMLCommonHandler.instance().bus().register(new PlayerJoinHandler());
         FMLCommonHandler.instance().bus().register(new VanillaJoinMessageFilter());
         MinecraftForge.EVENT_BUS.register(new BlockBreackEvent());
-        MinecraftForge.EVENT_BUS.register(new ChatLogging());       LogHelper.info("Events registered!");
+        MinecraftForge.EVENT_BUS.register(new ChatLogging());
+        MinecraftForge.EVENT_BUS.register(new CommandLogging());
+        LogHelper.info("Events registered!");
         LogHelper.info("=====================================");
     }
 

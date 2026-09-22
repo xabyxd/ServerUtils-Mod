@@ -14,7 +14,9 @@ public class Config {
     public static File configDir = new File("config", Serverutils.MODID);
     public static File configFile = new File(configDir, Serverutils.MODID + ".cfg");
     public static String logFileName = "ServerChat";
+    public static String commandLogFileName = "ServerCommands";
     public static File logFile = new File(configDir, logFileName + ".log");
+    public static File commandLogFile = new File(configDir, commandLogFileName + ".log");
 
     // Category config
     public static final String CATEGORY_WELCOME = "welcome messages";
@@ -24,6 +26,7 @@ public class Config {
     // Config mod options
     public static boolean logDimensionChanges = true;
     public static boolean enableChatLogging = true;
+    public static boolean enableCommandLogging = true;
     public static boolean enableVersionChecker = true;
     public static String REMOTE_VERSION_URL = "https://xabyserver.ddns.net/ServerUtils/version.txt";
 
@@ -82,6 +85,13 @@ public class Config {
             Configuration.CATEGORY_GENERAL,
             true,
             "Should Server Utils log chat messages in the log file?"
+        );
+
+        enableCommandLogging = configuration.getBoolean(
+            "enableCommandLogging",
+            Configuration.CATEGORY_GENERAL,
+            true,
+            "Should Server Utils log command usage in the log file?"
         );
 
         normalUserWelcomeMessage = configuration.getString(
