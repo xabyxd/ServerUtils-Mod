@@ -3,6 +3,7 @@ package net.xabyxd.ServerUtils.events;
 import java.util.HashSet;
 import java.util.Set;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
@@ -24,10 +25,17 @@ public class BlockBreackEvent {
                 continue;
             }
 
-            Block block = GameRegistry.findBlock(parts[0].trim(), parts[1].trim());
+            String modid = parts[0].trim();
+            String blockName = parts[1].trim();
+
+            Block block = GameRegistry.findBlock(modid, blockName);
 
             if (block == null) {
-                LogHelper.info("The block for: " + entry + "  was not found. (Mod not installed or incorrect name?)");
+                if (!Loader.isModLoaded(modid)) {
+                    LogHelper.info("Skipping '" + entry + "': mod '" + modid + "' is not installed.");
+                } else {
+                    LogHelper.info("Skipping '" + entry + "': mod '" + modid + "' is installed but block '" + blockName + "' was not found.");
+                }
                 continue;
             }
 

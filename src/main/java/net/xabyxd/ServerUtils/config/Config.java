@@ -13,15 +13,17 @@ public class Config {
     // Config file directory and file generation
     public static File configDir = new File("config", Serverutils.MODID);
     public static File configFile = new File(configDir, Serverutils.MODID + ".cfg");
+    public static String logFileName = "ServerChat";
+    public static File logFile = new File(configDir, logFileName + ".log");
 
     // Category config
     public static final String CATEGORY_WELCOME = "welcome messages";
-    public static final String CATEGORY_VERSION_CHECKER = "version checker";
     public static final String CATEGORY_COMMANDS = "commands";
     public static final String CATEGORY_BLOCKS = "watched blocks";
 
     // Config mod options
     public static boolean logDimensionChanges = true;
+    public static boolean enableChatLogging = true;
     public static boolean enableVersionChecker = true;
     public static String REMOTE_VERSION_URL = "https://xabyserver.ddns.net/ServerUtils/version.txt";
 
@@ -63,7 +65,7 @@ public class Config {
 
         enableVersionChecker = configuration.getBoolean(
             "enableVersionChecker",
-            CATEGORY_VERSION_CHECKER,
+            Configuration.CATEGORY_GENERAL,
             enableVersionChecker,
             "Enable or disable the version checker."
         );
@@ -73,6 +75,13 @@ public class Config {
             Configuration.CATEGORY_GENERAL,
             true,
             "Should Server Utils log dimension changes in the server console?"
+        );
+
+        enableChatLogging = configuration.getBoolean(
+            "enableChatLogging",
+            Configuration.CATEGORY_GENERAL,
+            true,
+            "Should Server Utils log chat messages in the log file?"
         );
 
         normalUserWelcomeMessage = configuration.getString(
