@@ -39,8 +39,8 @@ public class Config {
         Arrays.asList(
             "This server is running Server Utils v" + Serverutils.VERSION,
             "The mod is developed by xabyxd",
-            "Sincerely, the mod author",
-            "Whathever"
+            "I hope GTNH dev team hires me for free hehe",
+            "Whathever copium"
         )
     );
 

@@ -15,7 +15,7 @@ import net.xabyxd.ServerUtils.events.BlockBreackEvent;
 import net.xabyxd.ServerUtils.events.ChatLogging;
 import net.xabyxd.ServerUtils.events.CommandLogging;
 import net.xabyxd.ServerUtils.events.PlayerJoinHandler;
-import net.xabyxd.ServerUtils.events.VanillaJoinMessageFilter;
+import net.xabyxd.ServerUtils.network.VanillaJoinMessageFilter;
 import net.xabyxd.ServerUtils.utils.LogHelper;
 import net.xabyxd.ServerUtils.utils.VersionChecker;
 

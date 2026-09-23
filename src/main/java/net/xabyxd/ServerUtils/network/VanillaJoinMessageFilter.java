@@ -1,4 +1,4 @@
-package net.xabyxd.ServerUtils.events;
+package net.xabyxd.ServerUtils.network;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
