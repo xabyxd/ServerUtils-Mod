@@ -17,6 +17,10 @@ public class Config {
     public static String commandLogFileName = "ServerCommands";
     public static File logFile = new File(configDir, logFileName + ".log");
     public static File commandLogFile = new File(configDir, commandLogFileName + ".log");
+    
+    // Jailed players file (not implemented yet)
+    public static String JailedPlayersFileName = "JailedPlayers";
+    public static File JailedPlayersFile = new File(configDir, JailedPlayersFileName + ".json");
 
     // Category config
     public static final String CATEGORY_WELCOME = "welcome messages";

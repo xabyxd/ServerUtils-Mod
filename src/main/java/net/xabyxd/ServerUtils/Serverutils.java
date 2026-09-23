@@ -10,7 +10,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 @Mod(
     modid = Serverutils.MODID,
     version = Serverutils.VERSION,
-    name = "Server Utils",
+    name = Serverutils.NAME,
     dependencies = "required-after:Forge@[10.13.4.1614]", // espcecify Forge version (just in case)
     acceptedMinecraftVersions = "[1.7.10]",
     acceptableRemoteVersions = "*" // make the mod only server-side
@@ -18,6 +18,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
 public class Serverutils {
     public static final String MODID = "serverutils";
+    public static final String NAME = "Server Utils";
     public static final String VERSION = "@VERSION@";
 
     public static CommonProxy proxy = new CommonProxy();

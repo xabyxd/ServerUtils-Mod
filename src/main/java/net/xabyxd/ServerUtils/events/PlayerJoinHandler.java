@@ -79,6 +79,10 @@ public class PlayerJoinHandler {
                 EnumChatFormatting.GRAY + ". Type " + EnumChatFormatting.AQUA + "/help" +
                 EnumChatFormatting.GRAY + " to see admin commands."
             ));
+            player.addChatMessage(new ChatComponentText(
+                EnumChatFormatting.GRAY + "Use " + EnumChatFormatting.AQUA + "/suupdates" +
+                EnumChatFormatting.GRAY + " to check for updates."
+            ));
         } else {
             player.addChatMessage(new ChatComponentText(
                 EnumChatFormatting.GOLD + "" + EnumChatFormatting.BOLD + Config.normalUserWelcomeMessage + username + "!"

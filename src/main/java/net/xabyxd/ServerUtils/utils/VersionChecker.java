@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import cpw.mods.fml.relauncher.FMLInjectionData;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.util.ChatComponentText;
 import net.xabyxd.ServerUtils.Serverutils;
 import net.xabyxd.ServerUtils.config.Config;
 
@@ -26,9 +28,28 @@ public class VersionChecker implements Runnable {
     private static boolean noConnection;
     private static UpdateType updateType = UpdateType.NONE;
 
+    private final ICommandSender requester;
+
+    public VersionChecker() {
+        this(null);
+    }
+
+    public VersionChecker(ICommandSender requester) {
+        this.requester = requester;
+    }
+
     public static void startCheck() {
+        startCheck(null);
+    }
+
+    /**
+     * Starts an async version check, same as startCheck(), but also reports
+     * the result back to the given command sender once it finishes. Used to
+     * trigger a check on demand from an in-game/console command.
+     */
+    public static void startCheck(ICommandSender requester) {
         Thread thread = new Thread(
-            new VersionChecker(),
+            new VersionChecker(requester),
             "ServerUtils-VersionChecker"
         );
 
@@ -38,7 +59,10 @@ public class VersionChecker implements Runnable {
 
     @Override
     public void run() {
-        if (!Config.enableVersionChecker) return;
+        if (!Config.enableVersionChecker) {
+            reportResult("Version checker is disabled in the config.");
+            return;
+        }
         String minecraftVersion = (String) FMLInjectionData.data()[4];
 
         String prefix = "[" + minecraftVersion + "]=";
@@ -69,6 +93,9 @@ public class VersionChecker implements Runnable {
                     "No version information found for Minecraft {}",
                     minecraftVersion
                 );
+                reportResult(
+                    "No version information found for Minecraft " + minecraftVersion
+                );
                 return;
             }
 
@@ -77,6 +104,9 @@ public class VersionChecker implements Runnable {
                 LogHelper.info(
                     "ServerUtils is up to date! ({})",
                     LOCAL_VERSION
+                );
+                reportResult(
+                    "ServerUtils is up to date! (" + LOCAL_VERSION + ")"
                 );
             } else {
                 updateAvailable = true;
@@ -94,6 +124,10 @@ public class VersionChecker implements Runnable {
                     "Latest version: {}",
                     latestVersion
                 );
+                reportResult(
+                    "A new " + updateType.name().toLowerCase() + " update of ServerUtils is available! ("
+                    + LOCAL_VERSION + " -> " + latestVersion + ")"
+                );
             }
         } catch (Exception e) {
             noConnection = true;
@@ -104,7 +138,35 @@ public class VersionChecker implements Runnable {
                 "Version check exception:",
                 e
             );
+            reportResult("Unable to check for ServerUtils updates.");
         }
+    }
+
+    /**
+     * Sends the check result as a chat message to the command sender that
+     * requested it, if any. Automatic startup checks (started via the
+     * no-arg startCheck()) have no requester, so nothing is sent to chat
+     * in that case — only the usual LogHelper output happens.
+     */
+    private void reportResult(String message) {
+        if (requester != null) {
+            requester.addChatMessage(new ChatComponentText(message));
+        }
+    }
+
+    /**
+     * Returns a short, human-readable summary of the last known check
+     * result, without triggering a new check. Returns null if no update
+     * is available (or no check has completed yet), so callers can just
+     * check for null instead of calling isUpdateAvailable() separately.
+     */
+    public static String getUpdateSummary() {
+        if (!updateAvailable) {
+            return null;
+        }
+
+        return "A new " + updateType.name().toLowerCase() + " update of ServerUtils is available ("
+            + LOCAL_VERSION + " -> " + latestVersion + ")";
     }
 
     /**
