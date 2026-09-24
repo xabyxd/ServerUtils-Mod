@@ -18,9 +18,12 @@ public class Config {
     public static File logFile = new File(configDir, logFileName + ".log");
     public static File commandLogFile = new File(configDir, commandLogFileName + ".log");
     
-    // Jailed players file (not implemented yet)
+    // Jailed players file
     public static String JailedPlayersFileName = "JailedPlayers";
     public static File JailedPlayersFile = new File(configDir, JailedPlayersFileName + ".json");
+    // Jail location file
+    public static String JailLocationFileName = "JailLocation";
+    public static File JailLocationFile = new File(configDir, JailLocationFileName + ".json");
 
     // Category config
     public static final String CATEGORY_WELCOME = "welcome messages";

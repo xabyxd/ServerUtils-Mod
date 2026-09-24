@@ -12,10 +12,12 @@ import net.xabyxd.ServerUtils.commands.CommandInfo;
 import net.xabyxd.ServerUtils.commands.CommandReload;
 import net.xabyxd.ServerUtils.commands.CommandSuUpdates;
 import net.xabyxd.ServerUtils.commands.JailCommand;
+import net.xabyxd.ServerUtils.commands.SetJailCommand;
 import net.xabyxd.ServerUtils.config.Config;
 import net.xabyxd.ServerUtils.events.BlockBreackEvent;
 import net.xabyxd.ServerUtils.events.ChatLogging;
 import net.xabyxd.ServerUtils.events.CommandLogging;
+import net.xabyxd.ServerUtils.events.JailTickHandler;
 import net.xabyxd.ServerUtils.events.PlayerJoinHandler;
 import net.xabyxd.ServerUtils.network.VanillaJoinMessageFilter;
 import net.xabyxd.ServerUtils.utils.LogHelper;
@@ -48,6 +50,7 @@ public class CommonProxy {
         // Event registration
         FMLCommonHandler.instance().bus().register(new PlayerJoinHandler());
         FMLCommonHandler.instance().bus().register(new VanillaJoinMessageFilter());
+        FMLCommonHandler.instance().bus().register(new JailTickHandler());
         MinecraftForge.EVENT_BUS.register(new BlockBreackEvent());
         MinecraftForge.EVENT_BUS.register(new ChatLogging());
         MinecraftForge.EVENT_BUS.register(new CommandLogging());
@@ -70,6 +73,7 @@ public class CommonProxy {
         event.registerServerCommand(new CommandReload());
         event.registerServerCommand(new CommandSuUpdates());
         event.registerServerCommand(new JailCommand());
+        event.registerServerCommand(new SetJailCommand());
         LogHelper.info("Commands registered!");
     }
 }
