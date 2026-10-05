@@ -2,15 +2,46 @@
 
 ## General
 
-- [ ] Refactor LOGGER to use a custom logger
-- [ ] Add Jail command (to jail players)
-- [ ] Add Block break detection (to detect if a player is breaking a list of specific blocks)
-- [✔] Add a way to detect if a player is in a specific dimension
-- [✔] Add a custom "welcome" message via config
-- [✔] Server utils config folder for configs and resources
-- [✔] Version checker
-- [✔] Add /info command (config-driven lines)
+### Completed
+
+- [✔] Refactor `LOGGER` to use a custom logger
+- [✔] Add `/jail` command to jail players
+- [✔] Add block-break detection for configurable blocks
+- [✔] Add dimension detection
+- [✔] Add configurable custom welcome message
+- [✔] Add ServerUtils config directory for configs and resources
+- [✔] Add version checker
+- [✔] Add `/info` command with config-driven lines
 - [✔] Add config reload command
-- [ ] Auto world backup
+
+### Planned
+
+- [ ] Add automatic world backups
 - [ ] Add per-player data viewer command (JSON storage)
-- More to come...
+
+---
+
+## Anti-Cheat
+
+### Core
+
+- [ ] Add Anti-Cheat module
+- [ ] Add ability to enable/disable Anti-Cheat
+
+### Modules
+
+- [ ] Add Anti-Cheat modules
+- [ ] Add Anti-Cheat events (on join, on attack etc.)
+
+### Configuration
+
+- [ ] Add Anti-Cheat configuration
+- [ ] Add per-module configuration
+
+### Commands
+
+- [ ] Add Anti-Cheat commands
+
+---
+
+## More to come...
